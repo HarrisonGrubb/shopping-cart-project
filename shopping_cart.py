@@ -39,7 +39,7 @@ def add_to_cart(what_to_add):
             pass
 
 while done_flag == False:
-    from_user = input('Please put something in your cart. Type Done when you are finished')
+    from_user = input('Please put something in your cart. Type Done when you are finished  ')
     if from_user == 'Done':
         done_flag = True
     elif from_user.isdigit() == False:
@@ -66,9 +66,9 @@ for purchases in range(0, len(shopping_list)):
 tax = subtotal * 0.08875
 total = subtotal + tax
 print('--------------------')
-print('Subtotal', "(${:,.2f})".format(subtotal))
-print('NYC Tax (8.875%', "(${:,.2f})".format(tax))
-print('Subtotal', "(${:,.2f})".format(total))
+print('Subtotal', "        (${:,.2f})".format(subtotal))
+print('NYC Tax (8.875%)', "(${:,.2f})".format(tax))
+print('Subtotal', "        (${:,.2f})".format(total))
 print('--------------------')
 
 #help with the date time format from here
