@@ -49,14 +49,16 @@ while done_flag == False:
         add_to_cart(from_user)
 #print(shopping_list)
 subtotal = 0
+time_of_purchase = datetime.datetime.now()
 print('--------------------')
-print('Sheetz Corp.') #my favorite convience store when back in PA
+print('Sheetz Corp.') #my favorite food spot when back in PA
 print('--------------------')
 print('Web: www.sheetzco.com') 
 print('Phone: +1-814-978-0000')
-print('Time of purchase: to figure out' )
+print('Time of purchase:', time_of_purchase.strftime("%b %d %Y %H:%M:%S") )
 print('--------------------')
 print('Shopping Cart Items')
+#iterate through my shopping list to print items and calculate subtotal
 for purchases in range(0, len(shopping_list)):
     print('+', shopping_list[purchases]['name'], "(${:,.2f})".format(shopping_list[purchases]['price']) )
     subtotal += float(shopping_list[purchases]['price'])
@@ -67,6 +69,9 @@ print('Subtotal', "(${:,.2f})".format(subtotal))
 print('NYC Tax (8.875%', "(${:,.2f})".format(tax))
 print('Subtotal', "(${:,.2f})".format(total))
 print('--------------------')
+
+#help with the date time format from here
+#https://stackabuse.com/how-to-format-dates-in-python/
 
 
 
