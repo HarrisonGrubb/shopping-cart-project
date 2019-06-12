@@ -1,6 +1,5 @@
 import datetime
 import pandas as pd
-import math
 
 products = [
     {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
@@ -40,9 +39,11 @@ def add_to_cart(what_to_add):
             pass
 
 while done_flag == False:
-    from_user = input('Please put something in your cart.')
+    from_user = input('Please put something in your cart. Type Done when you are finished')
     if from_user == 'Done':
         done_flag = True
+    elif from_user.isdigit() == False:
+        print("Please only input numbers")
     elif int(from_user) not in product_list:
         print('Sorry we are out of stock, please pick something else.')
     else:
@@ -73,9 +74,9 @@ print('--------------------')
 #help with the date time format from here
 #https://stackabuse.com/how-to-format-dates-in-python/
 
-
+#help with the isdigit elif statment
+#https://www.programiz.com/python-programming/methods/string/isdigit
 
 ## Take items out of cart
 
-## Print receipt
 
