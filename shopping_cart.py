@@ -1,4 +1,4 @@
-
+import datetime
 
 
 products = [
@@ -24,14 +24,43 @@ products = [
     {"id":20, "name": "Pomegranate Cranberry & Aloe Vera Enrich Drink", "department": "beverages", "aisle": "juice nectars", "price": 4.25}
 ] # based on data from Instacart: https://www.instacart.com/datasets/grocery-shopping-2017
 
+product_list = []
+for ids in range(0, len(products)):
+    product_list.append(products[ids]['id'])
 
 shopping_list = []
 done_flag = False
+
+def add_to_cart(what_to_add):
+    for item in range(0, len(products)):
+        if int(what_to_add) == int(products[item]['id']):
+            shopping_list.append(products[item])
+        else:
+            pass
 
 while done_flag == False:
     from_user = input('Please put something in your cart.')
     if from_user == 'Done':
         done_flag = True
+    elif int(from_user) not in product_list:
+        print('Sorry we are out of stock, please pick something else.')
     else:
-        shopping_list.append(from_user)
+        add_to_cart(from_user)
+#print(shopping_list)
+print('--------------------')
+print('Sheetz Corp.') #my favorite convience store when back in PA
+print('--------------------')
+print('Web: www.sheetzco.com') 
+print('Phone: +1-814-978-0000')
+print('Time of purchase: to figure out' )
+print('--------------------')
+print('Shopping Cart Items')
+
+
+for purchases in shopping_list:
+    
+
+## Take items out of cart
+
+## Print receipt
 
