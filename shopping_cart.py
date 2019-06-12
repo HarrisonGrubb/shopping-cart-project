@@ -1,5 +1,6 @@
 import datetime
-
+import pandas as pd
+import math
 
 products = [
     {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
@@ -47,6 +48,7 @@ while done_flag == False:
     else:
         add_to_cart(from_user)
 #print(shopping_list)
+subtotal = 0
 print('--------------------')
 print('Sheetz Corp.') #my favorite convience store when back in PA
 print('--------------------')
@@ -55,10 +57,18 @@ print('Phone: +1-814-978-0000')
 print('Time of purchase: to figure out' )
 print('--------------------')
 print('Shopping Cart Items')
+for purchases in range(0, len(shopping_list)):
+    print('+', shopping_list[purchases]['name'], "(${:,.2f})".format(shopping_list[purchases]['price']) )
+    subtotal += float(shopping_list[purchases]['price'])
+tax = subtotal * 0.08875
+total = subtotal + tax
+print('--------------------')
+print('Subtotal', "(${:,.2f})".format(subtotal))
+print('NYC Tax (8.875%', "(${:,.2f})".format(tax))
+print('Subtotal', "(${:,.2f})".format(total))
+print('--------------------')
 
 
-for purchases in shopping_list:
-    
 
 ## Take items out of cart
 
