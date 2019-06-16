@@ -44,25 +44,6 @@ done_flag = False
 subtotal = 0
 
 
-def add_to_cart(what_to_add):
-    for item in range(0, len(products)):
-        if int(what_to_add) == int(products[item]['id']):
-            shopping_list.append(products[item])
-        else:
-            pass
-
-# template_data = {
-#     "total_price_usd": "$14.95",
-#     "human_friendly_timestamp": "June 1st, 2019 10:00 AM",
-#     "products":[
-#         {"id":1, "name": "Product 1"},
-#         {"id":2, "name": "Product 2"},
-#         {"id":3, "name": "Product 3"},
-#         {"id":2, "name": "Product 2"},
-#         {"id":1, "name": "Product 1"}
-#     ]
-# }    
-
 def email_fill():
     tax = subtotal * 0.08875
     total = subtotal + tax
@@ -101,15 +82,40 @@ def email_fill():
     except Exception as e:
         print('OOPS', e)
 
+def printer ():
+    time_of_purchase = datetime.datetime.now()
+    print('--------------------')
+    print('Sheetz Corp.') #my favorite food spot when back in PA
+    print('--------------------')
+    print('Web: www.sheetzco.com') 
+    print('Phone: +1-814-978-0000')
+    print('Time of purchase:', time_of_purchase.strftime("%b %d %Y %H:%M:%S") )
+    print('--------------------')
+    print('Shopping Cart Items')
+    #iterate through my shopping list to print items 
+    for purchases in range(0, len(shopping_list)):
+        print('+', shopping_list[purchases]['name'], "(${:,.2f})".format(shopping_list[purchases]['price']) )
+
+    tax = subtotal * 0.08875
+    total = subtotal + tax
+    print('--------------------')
+    print('Subtotal', "        (${:,.2f})".format(subtotal))
+    print('NYC Tax (8.875%)', "(${:,.2f})".format(tax))
+    print('Subtotal', "        (${:,.2f})".format(total))
+    print('--------------------')
+
 
 while done_flag == False:
     from_user = input('Please put something in your cart. Type Done when you are finished  ')
     if from_user == 'Done':
-        email_y_n = input("Would you like a copy of the receipt emailed to you ('Yes' or 'No') ")
-        if email_y_n == 'Yes':
+        receipt_option = input("How would you like to recieve your receipt ('Email', 'Printed', or 'No Receipt')")
+        if receipt_option == 'No Receipt':
+            break
+        elif receipt_option == 'Email':
             send_to = input('Please input your email address ')
             email_fill() 
-            #email_out()
+        else:
+            printer()
         done_flag = True
     elif from_user.isdigit() == False:
         print("Please only input numbers")
@@ -121,26 +127,27 @@ while done_flag == False:
                 shopping_list.append(products[item])
                 subtotal += float(products[item]['price'])
 
-time_of_purchase = datetime.datetime.now()
-print('--------------------')
-print('Sheetz Corp.') #my favorite food spot when back in PA
-print('--------------------')
-print('Web: www.sheetzco.com') 
-print('Phone: +1-814-978-0000')
-print('Time of purchase:', time_of_purchase.strftime("%b %d %Y %H:%M:%S") )
-print('--------------------')
-print('Shopping Cart Items')
-#iterate through my shopping list to print items 
-for purchases in range(0, len(shopping_list)):
-    print('+', shopping_list[purchases]['name'], "(${:,.2f})".format(shopping_list[purchases]['price']) )
 
-tax = subtotal * 0.08875
-total = subtotal + tax
-print('--------------------')
-print('Subtotal', "        (${:,.2f})".format(subtotal))
-print('NYC Tax (8.875%)', "(${:,.2f})".format(tax))
-print('Subtotal', "        (${:,.2f})".format(total))
-print('--------------------')
+# time_of_purchase = datetime.datetime.now()
+# print('--------------------')
+# print('Sheetz Corp.') #my favorite food spot when back in PA
+# print('--------------------')
+# print('Web: www.sheetzco.com') 
+# print('Phone: +1-814-978-0000')
+# print('Time of purchase:', time_of_purchase.strftime("%b %d %Y %H:%M:%S") )
+# print('--------------------')
+# print('Shopping Cart Items')
+# #iterate through my shopping list to print items 
+# for purchases in range(0, len(shopping_list)):
+#     print('+', shopping_list[purchases]['name'], "(${:,.2f})".format(shopping_list[purchases]['price']) )
+
+# tax = subtotal * 0.08875
+# total = subtotal + tax
+# print('--------------------')
+# print('Subtotal', "        (${:,.2f})".format(subtotal))
+# print('NYC Tax (8.875%)', "(${:,.2f})".format(tax))
+# print('Subtotal', "        (${:,.2f})".format(total))
+# print('--------------------')
 
 #help with the date time format from here
 #https://stackabuse.com/how-to-format-dates-in-python/
