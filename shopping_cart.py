@@ -41,6 +41,8 @@ for ids in range(0, len(products)):
 
 shopping_list = []
 done_flag = False
+subtotal = 0
+
 
 def add_to_cart(what_to_add):
     for item in range(0, len(products)):
@@ -49,24 +51,38 @@ def add_to_cart(what_to_add):
         else:
             pass
 
-template_data = {
-    "total_price_usd": "$14.95",
-    "human_friendly_timestamp": "June 1st, 2019 10:00 AM",
-    "products":[
-        {"id":1, "name": "Product 1"},
-        {"id":2, "name": "Product 2"},
-        {"id":3, "name": "Product 3"},
-        {"id":2, "name": "Product 2"},
-        {"id":1, "name": "Product 1"}
-    ]
-}    
+# template_data = {
+#     "total_price_usd": "$14.95",
+#     "human_friendly_timestamp": "June 1st, 2019 10:00 AM",
+#     "products":[
+#         {"id":1, "name": "Product 1"},
+#         {"id":2, "name": "Product 2"},
+#         {"id":3, "name": "Product 3"},
+#         {"id":2, "name": "Product 2"},
+#         {"id":1, "name": "Product 1"}
+#     ]
+# }    
 
+def email_fill():
+    tax = subtotal * 0.08875
+    total = subtotal + tax
+    time_of_purchase = datetime.datetime.now()
+    time_of_purchase  =time_of_purchase.strftime("%b %d %Y %H:%M:%S")
+    template_data = {
+        "total_price_usd" : total,
+        "human_friendly_timestamp" : str(time_of_purchase),
+        "products":[
+            {"id":1, "name": "Product 1"},
+            {"id":2, "name": "Product 2"},
+            {"id":3, "name": "Product 3"},
+            {"id":2, "name": "Product 2"},
+            {"id":1, "name": "Product 1"}]
+            } ## need to dynamically create this 
 
-def email_out ():
     client = SendGridAPIClient(SENDGRID_API_KEY)
     print("CLIENT:", type(client))
     from_email = MY_EMAIL_ADDRESS
-    to_email = MY_EMAIL_ADDRESS
+    to_email = send_to
     message = Mail(from_email, to_email)
     print("MESSAGE:", type(message))
 
@@ -84,24 +100,26 @@ def email_out ():
         print('OOPS', e)
 
 
-
 while done_flag == False:
     from_user = input('Please put something in your cart. Type Done when you are finished  ')
     if from_user == 'Done':
         email_y_n = input("Would you like a copy of the receipt emailed to you ('Yes' or 'No') ")
         if email_y_n == 'Yes':
             send_to = input('Please input your email address ')
-            print (send_to)
-            email_out()
+            email_fill() 
+            #email_out()
         done_flag = True
     elif from_user.isdigit() == False:
         print("Please only input numbers")
     elif int(from_user) not in product_list:
         print('Sorry we are out of stock, please pick something else.')
     else:
-        add_to_cart(from_user)
+        for item in range(0, len(products)):
+            if int(from_user) == int(products[item]['id']):
+                shopping_list.append(products[item])
+                subtotal += float(products[item]['price'])
 #print(shopping_list)
-subtotal = 0
+
 time_of_purchase = datetime.datetime.now()
 print('--------------------')
 print('Sheetz Corp.') #my favorite food spot when back in PA
@@ -112,9 +130,9 @@ print('Time of purchase:', time_of_purchase.strftime("%b %d %Y %H:%M:%S") )
 print('--------------------')
 print('Shopping Cart Items')
 #iterate through my shopping list to print items and calculate subtotal
-for purchases in range(0, len(shopping_list)):
-    print('+', shopping_list[purchases]['name'], "(${:,.2f})".format(shopping_list[purchases]['price']) )
-    subtotal += float(shopping_list[purchases]['price'])
+# for purchases in range(0, len(shopping_list)):
+#     print('+', shopping_list[purchases]['name'], "(${:,.2f})".format(shopping_list[purchases]['price']) )
+#     subtotal += float(shopping_list[purchases]['price'])
 tax = subtotal * 0.08875
 total = subtotal + tax
 print('--------------------')
