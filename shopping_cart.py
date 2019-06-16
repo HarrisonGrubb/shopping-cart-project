@@ -66,17 +66,19 @@ def add_to_cart(what_to_add):
 def email_fill():
     tax = subtotal * 0.08875
     total = subtotal + tax
+    total = str("(${:,.2f})".format(total))
     time_of_purchase = datetime.datetime.now()
     time_of_purchase  =time_of_purchase.strftime("%b %d %Y %H:%M:%S")
+    products_in = shopping_list
     template_data = {
         "total_price_usd" : total,
         "human_friendly_timestamp" : str(time_of_purchase),
-        "products":[
-            {"id":1, "name": "Product 1"},
-            {"id":2, "name": "Product 2"},
-            {"id":3, "name": "Product 3"},
-            {"id":2, "name": "Product 2"},
-            {"id":1, "name": "Product 1"}]
+        "products": [name for name in products_in]
+            # {"id":1, "name": "Product 1"},
+            # {"id":2, "name": "Product 2"},
+            # {"id":3, "name": "Product 3"},
+            # {"id":2, "name": "Product 2"},
+            # {"id":1, "name": "Product 1"}]
             } ## need to dynamically create this 
 
     client = SendGridAPIClient(SENDGRID_API_KEY)
@@ -118,7 +120,6 @@ while done_flag == False:
             if int(from_user) == int(products[item]['id']):
                 shopping_list.append(products[item])
                 subtotal += float(products[item]['price'])
-#print(shopping_list)
 
 time_of_purchase = datetime.datetime.now()
 print('--------------------')
@@ -129,10 +130,10 @@ print('Phone: +1-814-978-0000')
 print('Time of purchase:', time_of_purchase.strftime("%b %d %Y %H:%M:%S") )
 print('--------------------')
 print('Shopping Cart Items')
-#iterate through my shopping list to print items and calculate subtotal
-# for purchases in range(0, len(shopping_list)):
-#     print('+', shopping_list[purchases]['name'], "(${:,.2f})".format(shopping_list[purchases]['price']) )
-#     subtotal += float(shopping_list[purchases]['price'])
+#iterate through my shopping list to print items 
+for purchases in range(0, len(shopping_list)):
+    print('+', shopping_list[purchases]['name'], "(${:,.2f})".format(shopping_list[purchases]['price']) )
+
 tax = subtotal * 0.08875
 total = subtotal + tax
 print('--------------------')
@@ -147,6 +148,5 @@ print('--------------------')
 #help with the isdigit elif statment
 #https://www.programiz.com/python-programming/methods/string/isdigit
 
-## Take items out of cart
 
 
