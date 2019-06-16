@@ -1,12 +1,13 @@
 import datetime
-import pandas as pd
+import os
 from dotenv import load_dotenv
-import sendgrid
-from sendgrid.helpers.mail import * # source of Email, Content, Mail, etc.
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
 load_dotenv()
 
 SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY", "OOPS, please set env var called 'SENDGRID_API_KEY'")
+SENDGRID_TEMPLATE_ID = os.environ.get("SENDGRID_TEMPLATE_ID", "OOPS, please set env var called 'SENDGRID_TEMPLATE_ID")
 MY_EMAIL_ADDRESS = os.environ.get("MY_EMAIL_ADDRESS", "OOPS, please set env var called 'MY_EMAIL_ADDRESS'")
 
 
@@ -48,9 +49,50 @@ def add_to_cart(what_to_add):
         else:
             pass
 
+template_data = {
+    "total_price_usd": "$14.95",
+    "human_friendly_timestamp": "June 1st, 2019 10:00 AM",
+    "products":[
+        {"id":1, "name": "Product 1"},
+        {"id":2, "name": "Product 2"},
+        {"id":3, "name": "Product 3"},
+        {"id":2, "name": "Product 2"},
+        {"id":1, "name": "Product 1"}
+    ]
+}    
+
+
+def email_out ():
+    client = SendGridAPIClient(SENDGRID_API_KEY)
+    print("CLIENT:", type(client))
+    from_email = MY_EMAIL_ADDRESS
+    to_email = MY_EMAIL_ADDRESS
+    message = Mail(from_email, to_email)
+    print("MESSAGE:", type(message))
+
+    message.template_id = SENDGRID_TEMPLATE_ID # see receipt.html for the template's structure
+    message.dynamic_template_data = template_data
+    
+    try:
+        response = client.send(message)
+        print("RESPONSE", type(response))
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+
+    except Exception as e:
+        print('OOPS', e)
+
+
+
 while done_flag == False:
     from_user = input('Please put something in your cart. Type Done when you are finished  ')
     if from_user == 'Done':
+        email_y_n = input("Would you like a copy of the receipt emailed to you ('Yes' or 'No') ")
+        if email_y_n == 'Yes':
+            send_to = input('Please input your email address ')
+            print (send_to)
+            email_out()
         done_flag = True
     elif from_user.isdigit() == False:
         print("Please only input numbers")
