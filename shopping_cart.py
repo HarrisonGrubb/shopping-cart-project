@@ -108,7 +108,7 @@ def printer ():
 while done_flag == False:
     from_user = input('Please put something in your cart. Type Done when you are finished  ')
     if from_user == 'Done':
-        receipt_option = input("How would you like to recieve your receipt ('Email', 'Printed', or 'No Receipt')")
+        receipt_option = input("How would you like to recieve your receipt ('Email', 'Printed', or 'No Receipt') ")
         if receipt_option == 'No Receipt':
             break
         elif receipt_option == 'Email':
@@ -128,26 +128,6 @@ while done_flag == False:
                 subtotal += float(products[item]['price'])
 
 
-# time_of_purchase = datetime.datetime.now()
-# print('--------------------')
-# print('Sheetz Corp.') #my favorite food spot when back in PA
-# print('--------------------')
-# print('Web: www.sheetzco.com') 
-# print('Phone: +1-814-978-0000')
-# print('Time of purchase:', time_of_purchase.strftime("%b %d %Y %H:%M:%S") )
-# print('--------------------')
-# print('Shopping Cart Items')
-# #iterate through my shopping list to print items 
-# for purchases in range(0, len(shopping_list)):
-#     print('+', shopping_list[purchases]['name'], "(${:,.2f})".format(shopping_list[purchases]['price']) )
-
-# tax = subtotal * 0.08875
-# total = subtotal + tax
-# print('--------------------')
-# print('Subtotal', "        (${:,.2f})".format(subtotal))
-# print('NYC Tax (8.875%)', "(${:,.2f})".format(tax))
-# print('Subtotal', "        (${:,.2f})".format(total))
-# print('--------------------')
 
 #help with the date time format from here
 #https://stackabuse.com/how-to-format-dates-in-python/
@@ -155,5 +135,5 @@ while done_flag == False:
 #help with the isdigit elif statment
 #https://www.programiz.com/python-programming/methods/string/isdigit
 
-
-
+#help with the email receipt from Professor Rossetti's email templates
+#https://github.com/prof-rossetti/nyu-info-2335-201905/blob/master/notes/python/packages/sendgrid.md#email-templates 
