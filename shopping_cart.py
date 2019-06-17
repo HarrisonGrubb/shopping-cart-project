@@ -43,25 +43,26 @@ shopping_list = []
 done_flag = False
 subtotal = 0
 
-
+def to_usd(my_price):
+    return "(${:,.2f})".format(my_price)
+ 
 def email_fill():
     tax = subtotal * 0.08875
     total = subtotal + tax
     total = str("(${:,.2f})".format(total))
+    tax = str("(${:,.2f})".format(tax))
     time_of_purchase = datetime.datetime.now()
     time_of_purchase  =time_of_purchase.strftime("%b %d %Y %H:%M:%S")
-    products_in = shopping_list
+    products_in = [the['price'] for the in shopping_list]
+    products_in = list(map(to_usd, products_in))
     template_data = {
         "total_price_usd" : total,
+        "total_tax_usd" : tax,
         "human_friendly_timestamp" : str(time_of_purchase),
-        "products": [name for name in products_in]
-            # {"id":1, "name": "Product 1"},
-            # {"id":2, "name": "Product 2"},
-            # {"id":3, "name": "Product 3"},
-            # {"id":2, "name": "Product 2"},
-            # {"id":1, "name": "Product 1"}]
-            } ## need to dynamically create this 
-
+        "products": [name for name in shopping_list],
+        "prices" : [price for price in products_in ]
+            }  
+    
     client = SendGridAPIClient(SENDGRID_API_KEY)
     print("CLIENT:", type(client))
     from_email = MY_EMAIL_ADDRESS
@@ -137,3 +138,6 @@ while done_flag == False:
 
 #help with the email receipt from Professor Rossetti's email templates
 #https://github.com/prof-rossetti/nyu-info-2335-201905/blob/master/notes/python/packages/sendgrid.md#email-templates 
+
+#map function help
+#https://www.geeksforgeeks.org/python-map-function/

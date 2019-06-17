@@ -1,13 +1,14 @@
-<img src="https://www.shareicon.net/data/128x128/2016/05/04/759867_food_512x512.png">
+-<img src="https://www.shareicon.net/data/128x128/2016/05/04/759867_food_512x512.png">
 
 <h3>Hello this is your receipt</h3>
 
 <p>Date: {{human_friendly_timestamp}}</p>
 
 <p>Total: {{total_price_usd}}</p>
+<p>Tax: {{total_tax_usd}}</p>
 
 <ul>
 {{#each products}}
-	<li>You ordered: {{this.name}}</li>
+	<li>You ordered: {{this.name}} Price: {{this.price}}</li>
 {{/each}}
 </ul>
